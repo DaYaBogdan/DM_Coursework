@@ -4,7 +4,6 @@ TRUNCATE TABLE ORDERS CASCADE;
 TRUNCATE TABLE ACCOUNT CASCADE;
 ALTER SEQUENCE ORDERS_ID_SEQ RESTART WITH 1;
 ALTER SEQUENCE ORDER_TYPES_IN_ORDERS_ID_SEQ RESTART WITH 1;
-ALTER SEQUENCE ORDERS_LIST_ID_SEQ RESTART WITH 1;
 ALTER SEQUENCE REPORTS_ID_SEQ RESTART WITH 1;
 ALTER SEQUENCE TRANSACTIONS_ID_SEQ RESTART WITH 1;
 
@@ -66,22 +65,22 @@ INSERT INTO MATERIALS (NAME, AMOUNT, COST, MEASUREMENT) VALUES
 ('Салфетки безворсовые', 500.0, 15.00, 'шт'),
 ('Фотопленка', 35.0, 670.00, 'м');
 
-INSERT INTO ORDERS (CONTRACT_URL, STATUS) VALUES
-('contracts/order1.pdf', 'В обработке'),
-('contracts/order2.pdf', 'Размещён'),
-('contracts/order3.pdf', 'Принят мастером'),
-('contracts/order4.pdf', 'Завершен'),
-('contracts/order5.pdf', 'В обработке'),
-('contracts/order6.pdf', 'Размещён'),
-('contracts/order7.pdf', 'Принят мастером'),
-('contracts/order8.pdf', 'Завершен'),
-('contracts/order9.pdf', 'В обработке'),
-('contracts/order10.pdf', 'Размещён'),
-('contracts/order11.pdf', 'Принят мастером'),
-('contracts/order12.pdf', 'Завершен'),
-('contracts/order13.pdf', 'В обработке'),
-('contracts/order14.pdf', 'Размещён'),
-('contracts/order15.pdf', 'Принят мастером');
+INSERT INTO ORDERS (CONTRACT_URL, STATUS, CUSTOMER, MASTER) VALUES
+('contracts/order1.pdf', 'В обработке', 'user1', 'master1'),
+('contracts/order2.pdf', 'Размещён', 'user2', 'master2'),
+('contracts/order3.pdf', 'Принят мастером', 'user3', 'master3'),
+('contracts/order4.pdf', 'Завершен', 'user4', 'master4'),
+('contracts/order5.pdf', 'В обработке', 'user5', 'master5'),
+('contracts/order6.pdf', 'Размещён', 'user6', 'master1'),
+('contracts/order7.pdf', 'Принят мастером', 'user7', 'master2'),
+('contracts/order8.pdf', 'Завершен', 'user8', 'master3'),
+('contracts/order9.pdf', 'В обработке', 'user9', 'master4'),
+('contracts/order10.pdf', 'Размещён', 'user1', 'master5'),
+('contracts/order11.pdf', 'Принят мастером', 'user2', 'master1'),
+('contracts/order12.pdf', 'Завершен', 'user3', 'master2'),
+('contracts/order13.pdf', 'В обработке', 'user4', 'master3'),
+('contracts/order14.pdf', 'Размещён', 'user5', 'master4'),
+('contracts/order15.pdf', 'Принят мастером', 'user6', 'master5');
 
 INSERT INTO ORDER_TYPES_IN_ORDERS (ID, NAME) VALUES
 (1, 'Реставрация фото'),
@@ -121,23 +120,6 @@ INSERT INTO MATERIALS_IN_ORDER_TYPE (ORDER_TYPE_NAME, MATERIAL_NAME, AVERAGE_AMO
 ('Восстановление слайдов', 'Фотопленка', 0.8),
 ('Создание коллажей', 'Картон для задников', 2.0),
 ('Реставрация портретов', 'Красители', 0.7);
-
-INSERT INTO ORDERS_LIST (ID, CUSTOMER, MASTER) VALUES
-(1, 'user1', 'master1'),
-(2, 'user2', 'master2'),
-(3, 'user3', 'master3'),
-(4, 'user4', 'master4'),
-(5, 'user5', 'master5'),
-(6, 'user6', 'master1'),
-(7, 'user7', 'master2'),
-(8, 'user8', 'master3'),
-(9, 'user9', 'master4'),
-(10, 'user1', 'master5'),
-(11, 'user2', 'master1'),
-(12, 'user3', 'master2'),
-(13, 'user4', 'master3'),
-(14, 'user5', 'master4'),
-(15, 'user6', 'master5');
 
 INSERT INTO REPORTS (REPORTER, REPORTED, DESCRIPTION) VALUES
 ('user1', 'master1', 'Некачественно выполненная работа'),
