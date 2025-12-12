@@ -38,14 +38,14 @@ const ToggleMenu = () => {
         <span class="text">Книга жалоб</span>
       </RouterLink>
       <!-- <div class="master-text">---- Панель администратора ----</div> -->
-      <RouterLink class="button" :to="{name: 'Сотрудники'}">
+      <!-- <RouterLink class="button" :to="{name: 'Сотрудники'}">
         <span class="material-icons"> engineering </span>
         <span class="text">Сотрудники</span>
       </RouterLink>
       <RouterLink class="button" :to="{name: 'Материалы'}">
         <span class="material-icons"> warehouse </span>
         <span class="text">Материалы</span>
-      </RouterLink>
+      </RouterLink> -->
     </div>
 
     <div class="flex"></div>

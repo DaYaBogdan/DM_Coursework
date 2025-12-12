@@ -10,10 +10,11 @@ class RegisterData(BaseModel):
     password_sustaining: str
     
 class AuthResponse(BaseModel):
-    login: str
-    password: str
-    fio: str
-    email: str
-    phone: str
-    money: float
-    role: str
+    login: str = ""
+    password: str = ""
+    image_path: str = ""
+    fio: str = ""
+    email: str = ""
+    phone: str = ""
+    money: float = 0
+    role: str = ""

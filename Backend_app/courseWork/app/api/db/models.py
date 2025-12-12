@@ -17,7 +17,7 @@ class Orders(declarative_base()):
     customer = Column(VARCHAR(32), nullable=False)
     master = Column(VARCHAR(32))
     
-class Orders(declarative_base()):
+class Account(declarative_base()):
     
     """
     Класс для работы с таблицой ACCOUNT

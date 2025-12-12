@@ -6,8 +6,14 @@
         <div class="text">Логин</div>
       </div>
       <form id="login-form" name="login-form">
-        <input type="text" id="login_in_log_form" v-model="formData.login" :class="{discarded: hasError('login')}" placeholder="Ваш Логин" />
-        <input type="text" id="password" v-model="formData.password" :class="{discarded: hasError('password')}" placeholder="Пароль" />
+        <input
+          type="text"
+          id="login_in_log_form"
+          v-model="store.state.account.login"
+          :class="{discarded: hasError('login')}"
+          placeholder="Ваш Логин"
+        />
+        <input type="text" id="password" v-model="store.state.account.password" :class="{discarded: hasError('password')}" placeholder="Пароль" />
       </form>
       <div>
         <button class="bottom-button" @click="validateForm">Отправить</button>
@@ -18,11 +24,13 @@
 
 <script setup>
 import {ref, computed} from "vue";
+import {useStore} from "vuex";
 
-const formData = ref({
-  login: "",
-  password: "",
-});
+const store = useStore();
+// const formData = ref({
+//   login: store.state.account.login,
+//   password: store.state.account.password,
+// });
 
 const validate = ref({
   catches: false,
@@ -33,9 +41,9 @@ const validateFields = computed(() => {
 
   if (!validate.value.catches) return errors;
 
-  if (!formData.value.login) errors.push({field: "login", message: ""});
+  if (!store.state.account.login) errors.push({field: "login", message: ""});
 
-  if (!formData.value.password) errors.push({field: "password", message: ""});
+  if (!store.state.account.password) errors.push({field: "password", message: ""});
 
   return errors;
 });
@@ -43,31 +51,11 @@ const validateFields = computed(() => {
 function validateForm() {
   console.log("validating fields");
   validate.value.catches = true;
-  if (!validateFields.value[0]) sendFormToServer();
+  if (!validateFields.value[0]) store.commit("setAccountData");
 }
 
 function hasError(fieldName) {
   return validateFields.value.some((error) => error.field === fieldName);
-}
-
-function sendFormToServer() {
-  console.log("Sending data to server");
-
-  const loginData = {
-    login: formData.value.login,
-    passwordy: formData.value.password,
-  };
-
-  fetch("http://localhost:8000/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "registration/json",
-    },
-    body: JSON.stringify(loginData),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
 }
 </script>
 

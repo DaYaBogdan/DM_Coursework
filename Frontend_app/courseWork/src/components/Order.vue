@@ -22,7 +22,7 @@ const imageUrl = ref(null);
 onMounted(async () => {
   if (props.image) {
     console.log(props.image);
-    imageUrl.value = `http://localhost:8000/api/orders/get_image/${props.image}`;
+    imageUrl.value = `http://localhost:8000/api/get_image/${props.image}`;
   }
 });
 </script>

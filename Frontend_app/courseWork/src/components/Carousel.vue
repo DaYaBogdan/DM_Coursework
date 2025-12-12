@@ -3,7 +3,7 @@
     <div class="info">
       <div class="text" style="padding: 1rem">Работы наших мастеров</div>
       <div class="carousel">
-        <div class="center" v-for="order in orders" :key="order.id">
+        <div class="center" v-for="order in store.state.orders.slice(0, 5)" :key="order.id">
           <Order :image="order.image" :name="order.name" :tags="order.types" />
         </div>
       </div>
@@ -12,27 +12,12 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from "vue";
+import {useStore} from "vuex";
 import Order from "./Order.vue";
 
-const orders = ref([]);
+const store = useStore();
 
-async function getOrders() {
-  try {
-    const response = await fetch("http://localhost:8000/api/orders/get_listing");
-    if (!response.ok) throw new Error("Ошибка сети");
-
-    const data = await response.json();
-    orders.value = data.data.slice(0, 5) || [];
-  } catch (error) {
-    console.error("Ошибка:", error);
-    orders.value = [];
-  }
-}
-
-onMounted(() => {
-  getOrders();
-});
+store.commit("setOrders");
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi.responses import FileResponse
 from pathlib import Path
 from ...db.connection import sessionMaker
 from sqlalchemy import select, func
@@ -58,18 +57,3 @@ async def get_listing():
                 "status": 200, 
                 "message": "GitGud", 
                 "data": list_of_orders}
-    
-@listing_router.get("/get_image/{filename}")
-async def get_image(filename: str):
-    
-    image_path = Path(f"app/images/orders/{filename}")
-    
-    if not image_path.is_file():
-            return {
-                    "status": 400, 
-                    "message": f"Error! Cannot find image on path {image_path}", 
-                    "data": {
-                        }
-                    }
-    
-    return FileResponse(image_path)
