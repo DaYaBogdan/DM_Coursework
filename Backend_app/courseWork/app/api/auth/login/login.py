@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from ...models import LoginData, AuthResponse
+from ...models import LoginData
 from ...db.connection import sessionMaker
 from ...db.models import Account
 from sqlalchemy import select

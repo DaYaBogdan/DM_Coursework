@@ -73,19 +73,33 @@ function sendFormToServer() {
   const registrationData = {
     login: formData.value.login,
     password_primary: formData.value.password_primary,
-    password_sustantional: formData.value.password_sustantional,
+    password_sustaining: formData.value.password_sustantional,
   };
+
+  console.log(registrationData);
 
   fetch("http://localhost:8000/api/auth/register", {
     method: "POST",
     headers: {
-      "Content-Type": "registration/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(registrationData),
   })
     .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
+    .then((data) => {
+      if (data["status"] === 400) {
+        throw new Error(data["message"]);
+      } else {
+        state.account = data["data"];
+        state.authenticated = true;
+        router.push("/Account");
+        return;
+      }
+    })
+    .catch((error) => {
+      console.error("Ошибка: ", error);
+      return;
+    });
 }
 </script>
 

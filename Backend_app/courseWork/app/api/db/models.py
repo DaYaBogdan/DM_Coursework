@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, VARCHAR
+from sqlalchemy import Column, Integer, VARCHAR, REAL
 
 class Orders(declarative_base()):
     
@@ -30,6 +30,6 @@ class Account(declarative_base()):
     avatar_path = Column(VARCHAR(32))
     fio = Column(VARCHAR(64))
     email = Column(VARCHAR(64))
-    phone = Column(VARCHAR(32), nullable=False)
-    money = Column(VARCHAR(32))
+    phone = Column(VARCHAR(32))
+    money = Column(REAL)
     role = Column(VARCHAR(32))

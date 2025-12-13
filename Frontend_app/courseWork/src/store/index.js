@@ -76,6 +76,7 @@ export default createStore({
         role: "",
       };
     },
+    changeAccountProperties(state) {},
   },
   actions: {},
 });
