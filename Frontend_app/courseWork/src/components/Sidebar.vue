@@ -1,5 +1,8 @@
 <script setup>
 import {ref} from "vue";
+import {useStore} from "vuex";
+
+const store = useStore();
 
 const is_expanded = ref(localStorage.getItem("is_expanded") === "true");
 const ToggleMenu = () => {
@@ -25,10 +28,18 @@ const ToggleMenu = () => {
         ><span class="material-icons"> home </span>
         <span class="text">Главная страница</span>
       </RouterLink>
-      <RouterLink class="button" :to="{name: 'Аккаунт'}">
-        <span class="material-icons"> account_circle </span>
-        <span class="text">Аккаунт</span>
-      </RouterLink>
+      <div v-if="store.state.authenticated">
+        <RouterLink class="button" :to="{name: 'Аккаунт'}">
+          <span class="material-icons"> account_circle </span>
+          <span class="text">Аккаунт</span>
+        </RouterLink>
+      </div>
+      <div v-else>
+        <RouterLink class="button" :to="{name: 'Авторизация'}">
+          <span class="material-icons"> login </span>
+          <span class="text">Авторизация</span>
+        </RouterLink>
+      </div>
       <RouterLink class="button" :to="{name: 'Ваши заказы'}">
         <span class="material-icons"> list_alt </span>
         <span class="text">Ваши заказы</span>
@@ -50,11 +61,13 @@ const ToggleMenu = () => {
 
     <div class="flex"></div>
 
-    <div class="menu">
-      <RouterLink class="button" :to="{name: 'Авторизация'}">
-        <span class="material-icons"> login </span>
-        <span class="text">Авторизация</span>
-      </RouterLink>
+    <div v-if="store.state.authenticated">
+      <div class="menu">
+        <button class="button" @click="store.commit('logout')">
+          <span class="material-icons"> logout </span>
+          <span class="text">Выйти из аккаунта</span>
+        </button>
+      </div>
     </div>
   </aside>
 </template>

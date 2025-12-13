@@ -16,8 +16,6 @@ import {useStore} from "vuex";
 import Order from "./Order.vue";
 
 const store = useStore();
-
-store.commit("setOrders");
 </script>
 
 <style lang="scss" scoped>

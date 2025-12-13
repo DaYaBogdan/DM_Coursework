@@ -1,5 +1,5 @@
 import {createStore} from "vuex";
-import {ref} from "vue";
+import router from "@/router";
 
 export default createStore({
   state: {
@@ -7,8 +7,8 @@ export default createStore({
     settingUp: true,
 
     account: {
-      login: ref(""),
-      password: ref(""),
+      login: "",
+      password: "",
       image_path: "",
       fio: "",
       email: "",
@@ -18,7 +18,11 @@ export default createStore({
     },
     authenticated: false,
   },
-  getters: {},
+  getters: {
+    getAccount(state) {
+      return state.account;
+    },
+  },
   mutations: {
     setOrders(state) {
       setInterval(function () {
@@ -33,7 +37,7 @@ export default createStore({
           .then((state.settingUp = false));
       }, 3000);
     },
-    setAccountData(state) {
+    login(state) {
       console.log("Начинаем запрос на логирование");
       fetch("http://localhost:8000/api/auth/login", {
         method: "POST",
@@ -44,16 +48,33 @@ export default createStore({
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data["status"] == 400) {
-            throw "Неправильный пароль или логин";
+          if (data["status"] === 400) {
+            throw new Error("Неправильный пароль или логин");
+          } else {
+            state.account = data["data"];
+            state.authenticated = true;
+            router.push("/Account");
+            return;
           }
         })
-        .then((data) => (state.account = data["data"]))
         .catch((error) => {
           console.error("Ошибка: ", error);
           return;
-        })
-        .then((state.authenticated = true));
+        });
+    },
+    logout(state) {
+      router.push("/");
+      state.authenticated = false;
+      state.account = {
+        login: ref(""),
+        password: ref(""),
+        image_path: "",
+        fio: "",
+        email: "",
+        phone: "",
+        money: 0,
+        role: "",
+      };
     },
   },
   actions: {},

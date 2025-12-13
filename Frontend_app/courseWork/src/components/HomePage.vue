@@ -6,7 +6,7 @@
       <div class="text">Чтобы продолжить, пожалуйста, зарегестрируйтесь или войдите в аккаунт</div>
     </div>
     <div class="aligned-info">
-      <div v-if="is_logged_in"><Account /></div>
+      <div v-if="store.state.authenticated"><Account /></div>
       <div class="align" v-else>
         <Registration />
         <RouterLink class="just-text" :to="{name: 'Авторизация'}">Зарегестрированы?</RouterLink>
@@ -17,12 +17,12 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
 import Account from "./Account.vue";
 import Registration from "./Registration.vue";
 import Carousel from "./Carousel.vue";
+import {useStore} from "vuex";
 
-const is_logged_in = ref(localStorage.getItem("is_logged_in") === "true");
+const store = useStore();
 </script>
 
 <style lang="scss" scoped>

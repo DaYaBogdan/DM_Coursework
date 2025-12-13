@@ -1,6 +1,9 @@
 <script setup>
+import {useStore} from "vuex";
 import Sidebar from "@/components/Sidebar.vue";
 import {RouterView} from "vue-router";
+
+useStore().commit("setOrders");
 </script>
 
 <template>

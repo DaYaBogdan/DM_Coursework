@@ -25,6 +25,7 @@
 <script setup>
 import {ref, computed} from "vue";
 import {useStore} from "vuex";
+import router from "@/router";
 
 const store = useStore();
 // const formData = ref({
@@ -51,7 +52,9 @@ const validateFields = computed(() => {
 function validateForm() {
   console.log("validating fields");
   validate.value.catches = true;
-  if (!validateFields.value[0]) store.commit("setAccountData");
+  if (!validateFields.value[0]) {
+    store.commit("login");
+  }
 }
 
 function hasError(fieldName) {

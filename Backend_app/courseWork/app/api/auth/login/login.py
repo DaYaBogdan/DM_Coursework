@@ -13,9 +13,9 @@ async def getLoging(login: str, password: str):
     
     async with AsyncSessionLocal() as session:
         stmt = select(Account).where(Account.login == login).where(Account.password == password)
-        all_types = await session.execute(stmt)
+        account = await session.execute(stmt)
         
-    return all_types.scalars().one()
+    return account.scalars().one()
 
 @login_router.post("/login")
 async def login(user_data: LoginData):
@@ -26,10 +26,10 @@ async def login(user_data: LoginData):
     
     print(accountInfo)
     
-    if len(accountInfo) <= 0:
+    if not accountInfo:
         {
             "status": 400, "message": "Ошибка входа, логин или пароль не соответствуют", 
             "data": { "login": "", "password": "", "image_path": "", "fio": "", "email": "", "phone": "", "money": 0.0, "role": "" }
         }
     
-    return {"status": 200, "message": "Успешно! Вход выполнен корректно", "data": { accountInfo[0] }}
+    return {"status": 200, "message": "Успешно! Вход выполнен корректно", "data": { accountInfo }}
