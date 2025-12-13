@@ -1,5 +1,15 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, VARCHAR, REAL
+from sqlalchemy.dialects.postgresql import ENUM
+
+userrole_enum = ENUM(
+    'Пользователь', 
+    'Мастер', 
+    'Администратор', 
+    name='userrole',
+    create_type=True,  # Автоматически создаст тип
+    metadata=declarative_base().metadata  # Привязываем к метаданным
+)
 
 class Orders(declarative_base()):
     
@@ -32,4 +42,4 @@ class Account(declarative_base()):
     email = Column(VARCHAR(64))
     phone = Column(VARCHAR(32))
     money = Column(REAL)
-    role = Column(VARCHAR(32))
+    role = Column(userrole_enum)

@@ -31,6 +31,10 @@
 
 <script setup>
 import {ref, computed} from "vue";
+import router from "@/router";
+import {useStore} from "vuex";
+
+const store = useStore();
 
 const formData = ref({
   login: "",
@@ -76,8 +80,6 @@ function sendFormToServer() {
     password_sustaining: formData.value.password_sustantional,
   };
 
-  console.log(registrationData);
-
   fetch("http://localhost:8000/api/auth/register", {
     method: "POST",
     headers: {
@@ -90,8 +92,8 @@ function sendFormToServer() {
       if (data["status"] === 400) {
         throw new Error(data["message"]);
       } else {
-        state.account = data["data"];
-        state.authenticated = true;
+        store.state.account = data["data"];
+        store.state.authenticated = true;
         router.push("/Account");
         return;
       }
