@@ -18,9 +18,9 @@ async def registrateInDB(login: str, password: str):
             'login': login,
             'password': password,
             'avatar_path': "album_1",
-            'fio': "",
-            'email': "",
-            'phone': "",
+            'fio': "_",
+            'email': "_",
+            'phone': "_",
             'money': 0,
             'role': 'Пользователь'
         }
