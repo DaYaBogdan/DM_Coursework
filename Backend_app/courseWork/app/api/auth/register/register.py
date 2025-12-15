@@ -18,21 +18,20 @@ async def registrateInDB(login: str, password: str):
             'login': login,
             'password': password,
             'avatar_path': "album_1",
-            'fio': "",
-            'email': "",
-            'phone': "",
+            'fio': "_",
+            'email': "_",
+            'phone': "_",
             'money': 0,
-            'role': "Пользователь"
+            'role': 'Пользователь'
         }
         
-        account = await session.execute(stmt, data)
+        await session.execute(stmt, data)
+        await session.commit()
         
-    return account.scalars().one()
+    return data
 
 @register_router.post("/register")
 async def register(user_data: RegisterData):
-    
-    print(user_data)
     
     if not user_data.password_primary == user_data.password_sustaining:
         {
@@ -48,4 +47,4 @@ async def register(user_data: RegisterData):
             "data": { "login": "", "password": "", "image_path": "", "fio": "", "email": "", "phone": "", "money": 0.0, "role": "" }
         }
     
-    return {"status": 200, "message": "Успешно! Вход выполнен корректно", "data": { accountInfo }}
+    return {"status": 200, "message": "Успешно! Вход выполнен корректно", "data":  accountInfo }

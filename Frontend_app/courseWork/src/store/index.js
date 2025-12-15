@@ -23,17 +23,17 @@ export default createStore({
   getters: {},
   mutations: {
     setOrders(state) {
-      setInterval(function () {
-        console.log("Начинаем запрос на получение заказов");
-        fetch("http://localhost:8000/api/orders/get_listing")
-          .then((response) => response.json())
-          .then((data) => (state.orders = data["data"]))
-          .catch((error) => {
-            console.error("Ошибка", error);
-            return;
-          })
-          .then((state.settingUp = false));
-      }, 3000);
+      // setInterval(function () {
+      console.log("Начинаем запрос на получение заказов");
+      fetch("http://localhost:8000/api/orders/get_listing")
+        .then((response) => response.json())
+        .then((data) => (state.orders = data["data"]))
+        .catch((error) => {
+          console.error("Ошибка", error);
+          return;
+        })
+        .then((state.settingUp = false));
+      // }, 3000);
     },
     login(state) {
       console.log("Начинаем запрос на логирование");
