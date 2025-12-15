@@ -33,3 +33,16 @@ class Account(declarative_base()):
     phone = Column(VARCHAR(32))
     money = Column(REAL)
     role = Column(VARCHAR(32))
+    
+class Reports(declarative_base()):
+    
+    """
+    Класс для работы с таблицой REPORTS
+    """
+    
+    __tablename__ = "reports"
+    
+    id = Column(Integer, primary_key=True)
+    reporter = Column(VARCHAR(32))
+    reported = Column(VARCHAR(32))
+    descriprion = Column(VARCHAR(256))

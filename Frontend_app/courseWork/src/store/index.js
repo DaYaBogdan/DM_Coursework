@@ -17,12 +17,10 @@ export default createStore({
       role: "",
     },
     authenticated: false,
+
+    reports: [],
   },
-  getters: {
-    getAccount(state) {
-      return state.account;
-    },
-  },
+  getters: {},
   mutations: {
     setOrders(state) {
       setInterval(function () {
@@ -77,6 +75,16 @@ export default createStore({
       };
     },
     changeAccountProperties(state) {},
+    getReports(state) {
+      console.log("Начинаем запрос на получение репортов");
+      fetch("http://localhost:8000/api/get_reports")
+        .then((response) => response.json())
+        .then((data) => (state.orders = data["data"]))
+        .catch((error) => {
+          console.error("Ошибка", error);
+          return;
+        });
+    },
   },
   actions: {},
 });

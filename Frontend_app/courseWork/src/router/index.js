@@ -7,6 +7,7 @@ import Workers from "@/components/Workers.vue";
 import Materials from "@/components/Materials.vue";
 import Authorisation from "@/components/Authorisation.vue";
 import Carousel from "@/components/Carousel.vue";
+import MakeOrder from "@/components/MakeOrder.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
       path: "/Authorise",
       name: "Авторизация",
       component: Authorisation,
+    },
+    {
+      path: "/makeOrder",
+      name: "Сделать заказ",
+      component: MakeOrder,
     },
   ],
 });

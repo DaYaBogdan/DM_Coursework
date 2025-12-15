@@ -8,3 +8,8 @@ class RegisterData(BaseModel):
     login: str
     password_primary: str
     password_sustaining: str
+    
+class ReportData(BaseModel):
+    reporter: str
+    reported: str
+    descriprion: str

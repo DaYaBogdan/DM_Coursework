@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from .api.auth.auth import auth_router
 from .api.orders.orders import orders_router
 from .api.image_router.image_router import images_router
+from .api.reports.reports import reports_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -16,6 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(reports_router, prefix="/api", tags=["reports"])
 app.include_router(images_router, prefix="/api", tags=["images"])
 app.include_router(orders_router, prefix="/api", tags=["orders"])
 app.include_router(auth_router, prefix="/api", tags=["auth"])
