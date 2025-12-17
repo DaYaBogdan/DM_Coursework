@@ -48,6 +48,11 @@ const ToggleMenu = () => {
         <span class="material-icons"> report </span>
         <span class="text">Книга жалоб</span>
       </RouterLink>
+      <div class="just-text" v-if="store.state.authenticated">
+        <span class="material-icons"> currency_ruble </span>
+        <span class="text">Ваши деньги:</span>
+        <span class="text">{{ store.state.account["money"].toFixed(2) }}</span>
+      </div>
       <!-- <div class="master-text">---- Панель администратора ----</div> -->
       <!-- <RouterLink class="button" :to="{name: 'Сотрудники'}">
         <span class="material-icons"> engineering </span>
@@ -182,6 +187,25 @@ aside {
       }
     }
 
+    .just-text {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+
+      padding: 0.5rem 1rem;
+      transition: 0.2s ease-out;
+      gap: 1rem;
+      .material-icons {
+        font-size: 2rem;
+        color: var(--light);
+        transition: 0.2s ease-out;
+      }
+
+      .text {
+        color: var(--light);
+        transition: 0.2s ease-out;
+      }
+    }
     .master-text {
       padding: 20px 10px;
       text-align: center;

@@ -1,14 +1,8 @@
 <template>
   <main class="Reports-page">
-    <div :hidden="makingReport">
-      <div class="background">
-        <button @click="makingReport = !makingReport">Закрыть окно</button>
-        <MakeReport />
-      </div>
-    </div>
     <div class="info">
       <div class="buttons">
-        <button @click="makingReport = !makingReport">Разместить жалобу</button>
+        <RouterLink :to="{name: 'Сделать жалобу'}">Разместить жалобу</RouterLink>
       </div>
       <div class="reports">
         <Report
@@ -21,58 +15,38 @@
         />
       </div>
     </div>
+    <RouterView />
   </main>
 </template>
 
 <script setup>
-import {ref} from "vue";
 import {useStore} from "vuex";
 import Report from "./Report.vue";
-import MakeReport from "./MakeReport.vue";
 
 const store = useStore();
-const makingReport = ref(true);
-
-store.commit("getReports");
 </script>
 
 <style lang="scss" scoped>
-.background {
-  position: fixed;
-  top: 0;
-  left: 0px;
-  padding: 3rem;
-  margin: 0;
-  right: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-
-  display: flex;
-  flex-direction: column;
-
-  button {
-    color: var(--light);
-    background-color: var(--dark-alt);
-
-    font-size: 2rem;
-    border-radius: 0.5rem;
-    width: fit-content;
-    height: 3rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    margin: 3rem;
-  }
-}
-
 a {
+  color: var(--light);
+  background-color: var(--dark);
+
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  width: fit-content;
+  height: 3rem;
+  padding: 0 2rem;
+
   text-decoration: none;
-  &:link {
+  border: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+
+  &.router-link-active,
+  &.router-link-exact-active {
     color: var(--light);
-  }
-  &:visited {
-    color: var(--primary);
+    background-color: var(--dark);
   }
 }
 

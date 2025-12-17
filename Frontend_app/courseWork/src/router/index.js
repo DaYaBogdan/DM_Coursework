@@ -3,12 +3,11 @@ import HomePage from "@/components/HomePage.vue";
 import Account from "@/components/Account.vue";
 import Orders from "@/components/Orders.vue";
 import Reports from "@/components/Reports.vue";
-import Workers from "@/components/Workers.vue";
-import Materials from "@/components/Materials.vue";
 import Authorisation from "@/components/Authorisation.vue";
 import Carousel from "@/components/Carousel.vue";
 import MakeOrder from "@/components/MakeOrder.vue";
 import Error from "@/components/Error.vue";
+import MakeReport from "@/components/MakeReport.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,31 +31,30 @@ const router = createRouter({
       path: "/Orders",
       name: "Ваши заказы",
       component: Orders,
+      children: [
+        {
+          path: "MakeOrder",
+          name: "Сделать заказ",
+          component: MakeOrder,
+        },
+      ],
     },
     {
       path: "/Reports",
       name: "Книга жалоб",
       component: Reports,
-    },
-    {
-      path: "/Workers",
-      name: "Сотрудники",
-      component: Workers,
-    },
-    {
-      path: "/Materials",
-      name: "Материалы",
-      component: Materials,
+      children: [
+        {
+          path: "MakeOrder",
+          name: "Сделать жалобу",
+          component: MakeReport,
+        },
+      ],
     },
     {
       path: "/Authorise",
       name: "Авторизация",
       component: Authorisation,
-    },
-    {
-      path: "/makeOrder",
-      name: "Сделать заказ",
-      component: MakeOrder,
     },
     {
       path: "/catchall(.*)",

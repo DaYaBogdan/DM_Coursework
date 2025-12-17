@@ -1,15 +1,8 @@
 <template>
   <main class="orders-page">
-    <div :hidden="!makingOrder">
-      <div class="background">
-        <button @click="makingOrder = !makingOrder">Закрыть окно</button>
-        <MakeOrder />
-      </div>
-    </div>
-
     <div class="info">
       <div class="buttons">
-        <button @click="makingOrder = !makingOrder">Разместить заказ</button>
+        <RouterLink :to="{name: 'Сделать заказ'}">Разместить заказ</RouterLink>
       </div>
       <div class="orders-list">
         <Order
@@ -19,6 +12,8 @@
           :name="order.name"
           :status="order.order_status"
           :tags="order.types"
+          :posted="order.customer"
+          :master="order.master"
         />
       </div>
       <div class="buttons justify-center">
@@ -26,6 +21,7 @@
         <button @click="i++" :disabled="16 * (i + 1) > store.state.orders.length"><span class="material-icons">arrow_right</span></button>
       </div>
     </div>
+    <RouterView />
   </main>
 </template>
 
@@ -33,7 +29,6 @@
 import Order from "./Order.vue";
 import {useStore} from "vuex";
 import {ref} from "vue";
-import MakeOrder from "./MakeOrder.vue";
 
 const store = useStore();
 
@@ -44,32 +39,26 @@ makingOrder.value = !makingOrder.value;
 </script>
 
 <style lang="scss" scoped>
-.background {
-  position: fixed;
-  top: 0;
-  left: 0px;
-  padding: 3rem;
-  margin: 0;
-  right: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+a {
+  color: var(--light);
+  background-color: var(--dark);
 
-  display: flex;
-  flex-direction: column;
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  width: fit-content;
+  height: 3rem;
+  padding: 0 2rem;
 
-  button {
+  text-decoration: none;
+  border: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+
+  &.router-link-active,
+  &.router-link-exact-active {
     color: var(--light);
-    background-color: var(--dark-alt);
-
-    font-size: 2rem;
-    border-radius: 0.5rem;
-    width: fit-content;
-    height: 3rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    margin: 3rem;
+    background-color: var(--dark);
   }
 }
 
@@ -79,16 +68,6 @@ makingOrder.value = !makingOrder.value;
   margin: 0;
   padding: 0;
   text-align: center;
-}
-
-a {
-  text-decoration: none;
-  &:link {
-    color: var(--light);
-  }
-  &:visited {
-    color: var(--primary);
-  }
 }
 
 .buttons {
@@ -121,7 +100,7 @@ a {
 
 .orders-list {
   display: grid;
-  grid-template-columns: repeat(4, 4fr);
+  grid-template-columns: repeat(2, 2fr);
   justify-content: space-between;
 }
 span {

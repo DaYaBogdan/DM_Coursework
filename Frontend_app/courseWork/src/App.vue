@@ -2,12 +2,21 @@
 import {useStore} from "vuex";
 import Sidebar from "@/components/Sidebar.vue";
 import {RouterView} from "vue-router";
+import {onMounted} from "vue";
 
 const store = useStore();
 
 store.commit("setTypes");
-store.commit("setOrders");
 store.commit("setAccount");
+
+onMounted(() => {
+  store.dispatch("setOrders");
+  store.dispatch("setReports");
+  setInterval(() => {
+    store.dispatch("setOrders");
+    store.dispatch("setReports");
+  }, 10000);
+});
 </script>
 
 <template>

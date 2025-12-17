@@ -27,10 +27,6 @@ import {ref, computed} from "vue";
 import {useStore} from "vuex";
 
 const store = useStore();
-// const formData = ref({
-//   login: store.state.account.login,
-//   password: store.state.account.password,
-// });
 
 const validate = ref({
   catches: false,
@@ -48,11 +44,11 @@ const validateFields = computed(() => {
   return errors;
 });
 
-function validateForm() {
+async function validateForm() {
   console.log("validating fields");
   validate.value.catches = true;
   if (!validateFields.value[0]) {
-    store.commit("login");
+    await store.dispatch("login");
   }
 }
 

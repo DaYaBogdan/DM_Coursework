@@ -25,5 +25,11 @@ class FullData(BaseModel):
     
 class OrderData(BaseModel):
     name: str
-    login: str
+    customer: str
     tags: list
+    
+class OrderDataEx(BaseModel):
+    name: str
+    customer: str
+    tags: list
+    master: str

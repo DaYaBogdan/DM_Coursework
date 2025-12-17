@@ -23,53 +23,30 @@ export default createStore({
     types: [],
   },
   mutations: {
-    setOrders(state) {
-      console.log("Начинаем запрос на получение заказов");
-      fetch("http://localhost:8000/api/orders/get_listing")
-        .then((response) => response.json())
-        .then((data) => (state.orders = data["data"]))
-        .catch((error) => {
-          console.error("Ошибка", error);
-          return;
-        })
-        .then((state.settingUp = false));
+    SET_ORDERS(state, orders) {
+      state.orders = orders;
+      state.settingUp = false;
     },
-    login(state) {
-      console.log("Начинаем запрос на логирование");
-      fetch("http://localhost:8000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({login: state.account["login"], password: state.account["password"]}),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data["status"] === 400) {
-            throw new Error("Неправильный пароль или логин");
-          } else {
-            state.account = {
-              new_login: data["data"][0].login,
-              login: data["data"][0].login,
-              password: data["data"][0].password,
-              avatar_path: data["data"][0].avatar_path,
-              fio: data["data"][0].fio,
-              email: data["data"][0].email,
-              phone: data["data"][0].phone,
-              money: data["data"][0].money,
-              role: data["data"][0].role,
-            };
-            state.authenticated = true;
-            router.push("/Account");
-            localStorage.setItem("account", JSON.stringify(state.account));
-            localStorage.setItem("authenticated", JSON.stringify(state.authenticated));
-            return;
-          }
-        })
-        .catch((error) => {
-          console.error("Ошибка: ", error);
-          return;
-        });
+
+    SET_REPORTS(state, reports) {
+      state.reports = reports;
+    },
+
+    SET_MONEY(state, money) {
+      state.account.money = money;
+      localStorage.setItem("account", JSON.stringify(state.account));
+    },
+
+    SET_ACCOUNT(state, account) {
+      state.account = {
+        ...state.account,
+        ...account,
+      };
+      state.account.new_login = state.account.login;
+      state.authenticated = true;
+
+      localStorage.setItem("account", JSON.stringify(state.account));
+      localStorage.setItem("authenticated", true);
     },
     logout(state) {
       router.push("/");
@@ -78,7 +55,7 @@ export default createStore({
         new_login: "",
         login: "",
         password: "",
-        image_path: "",
+        avatar_path: "",
         fio: "",
         email: "",
         phone: "",
@@ -111,6 +88,7 @@ export default createStore({
         localStorage.setItem("authenticated", JSON.stringify(state.authenticated));
       }
     },
+
     changeAccountProperties(state) {
       fetch("http://localhost:8000/api/account_update", {
         method: "POST",
@@ -137,16 +115,7 @@ export default createStore({
           return;
         });
     },
-    getReports(state) {
-      console.log("Начинаем запрос на получение репортов");
-      fetch("http://localhost:8000/api/get_reports")
-        .then((response) => response.json())
-        .then((data) => (state.reports = data["data"]))
-        .catch((error) => {
-          console.error("Ошибка", error);
-          return;
-        });
-    },
+
     sendReport(state, {reported, description}) {
       fetch("http://localhost:8000/api/send_report", {
         method: "POST",
@@ -174,6 +143,68 @@ export default createStore({
       } catch (e) {
         console.error("Ошибка", e);
       }
+    },
+    async setOrders({commit}) {
+      console.log("Начинаем запрос на получение заказов");
+
+      const response = await fetch("http://localhost:8000/api/orders/get_listing");
+      const data = await response.json();
+      commit("SET_ORDERS", data.data);
+    },
+    async setReports({commit}) {
+      console.log("Начинаем запрос на получение репортов");
+
+      const response = await fetch("http://localhost:8000/api/get_reports");
+      const data = await response.json();
+      commit("SET_REPORTS", data.data);
+    },
+    async updateMoney({commit, state}) {
+      console.log("Начинаем запрос на получение денег");
+
+      const response = await fetch("http://localhost:8000/api/auth/get_money", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          login: state.account.login,
+          password: state.account.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      console.log(data.data);
+
+      if (data.status === 400) {
+        throw new Error("Неправильный пароль или логин");
+      }
+      commit("SET_MONEY", data.data);
+    },
+
+    async login({commit, state}) {
+      console.log("Начинаем запрос на логирование");
+
+      const response = await fetch("http://localhost:8000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          login: state.account.login,
+          password: state.account.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === 400) {
+        throw new Error("Неправильный пароль или логин");
+      }
+
+      router.push("/Account");
+      console.log(data.data[0]);
+      commit("SET_ACCOUNT", data.data[0]);
     },
   },
 });

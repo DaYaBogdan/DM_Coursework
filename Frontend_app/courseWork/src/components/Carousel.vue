@@ -4,7 +4,7 @@
       <div class="text" style="padding: 1rem">Работы наших мастеров</div>
       <div class="carousel">
         <div class="center" v-for="order in store.state.orders.slice(0, 4)" :key="order.id">
-          <Order :image="order.image" :name="order.name" :tags="order.types" />
+          <Order :image="order.image" :name="order.name" :tags="order.types" :buttonsHiden="true" />
         </div>
       </div>
     </div>
@@ -25,8 +25,8 @@ const store = useStore();
   text-align: center;
   justify-content: center;
 
-  .text {
-    padding: 1rem;
+  :deep(.text) {
+    font-size: 1rem;
   }
 }
 </style>

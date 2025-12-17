@@ -80,6 +80,7 @@ class OrderType(declarative_base()):
     description = Column(VARCHAR(128))
     
 class OrderTypeInOrders(declarative_base()):
+    
     """
     Класс для работы с таблицой ORDER_TYPES_IN_ORDERS
     """

@@ -13,7 +13,7 @@ async def insert_order(data: OrderData):
     _, AsyncSessionLocal = DBConnectionCreator.get_engine()
     
     async with AsyncSessionLocal() as session:
-        stmt = insert(Orders).values(name=data.name, image_path=f"album_{randint(a=1, b=15)}.jpg", contract_url="", status="В обработке", customer=data.login, master=None).returning(Orders.id)
+        stmt = insert(Orders).values(name=data.name, image_path=f"album_{randint(a=1, b=15)}.jpg", contract_url="", status="В обработке", customer=data.customer, master=None).returning(Orders.id)
         result = await session.execute(stmt)
         pk = result.scalar_one()
         await session.commit()
