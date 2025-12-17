@@ -1,10 +1,15 @@
 <template>
   <main class="orders-page">
+    <div :hidden="!makingOrder">
+      <div class="background">
+        <button @click="makingOrder = !makingOrder">Закрыть окно</button>
+        <MakeOrder />
+      </div>
+    </div>
+
     <div class="info">
       <div class="buttons">
-        <button>
-          <RouterLink :to="{name: 'Сделать заказ'}">Разместить заказ</RouterLink>
-        </button>
+        <button @click="makingOrder = !makingOrder">Разместить заказ</button>
       </div>
       <div class="orders-list">
         <Order
@@ -17,8 +22,8 @@
         />
       </div>
       <div class="buttons justify-center">
-        <button @click="i--" :disabled="i === 0"><span class="material-icons">arrow_back_ios</span></button>
-        <button @click="i++" :disabled="16 * i > store.state.orders"><span class="material-icons">arrow_forward_ios</span></button>
+        <button @click="i--" :disabled="i === 0"><span class="material-icons">arrow_left</span></button>
+        <button @click="i++" :disabled="16 * (i + 1) > store.state.orders.length"><span class="material-icons">arrow_right</span></button>
       </div>
     </div>
   </main>
@@ -28,16 +33,52 @@
 import Order from "./Order.vue";
 import {useStore} from "vuex";
 import {ref} from "vue";
+import MakeOrder from "./MakeOrder.vue";
 
 const store = useStore();
 
 const i = ref(0);
+const makingOrder = ref(true);
+
+makingOrder.value = !makingOrder.value;
 </script>
 
 <style lang="scss" scoped>
+.background {
+  position: fixed;
+  top: 0;
+  left: 0px;
+  padding: 3rem;
+  margin: 0;
+  right: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+
+  display: flex;
+  flex-direction: column;
+
+  button {
+    color: var(--light);
+    background-color: var(--dark-alt);
+
+    font-size: 2rem;
+    border-radius: 0.5rem;
+    width: fit-content;
+    height: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: 3rem;
+  }
+}
+
 .material-icons {
   font-size: 2rem;
   color: var(--light);
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
 
 a {
@@ -63,7 +104,6 @@ a {
     border-radius: 0.5rem;
     width: fit-content;
     height: 3rem;
-    // margin: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
 

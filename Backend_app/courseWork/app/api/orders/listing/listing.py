@@ -6,7 +6,7 @@ from ...db.models import Orders
 
 listing_router = APIRouter()
 
-async def getAllTypes(orderID: int):
+async def getAllOrderTypes(orderID: int):
     
     DBConnectionCreator = sessionMaker("administrator", "12345", "Restoration workshop")
     _, AsyncSessionLocal = DBConnectionCreator.get_engine()
@@ -48,7 +48,7 @@ async def get_listing():
                                 "name": i.name, 
                                 "image": i.image_path, 
                                 "order_status": i.status, 
-                                "types": await getAllTypes(i.id), 
+                                "types": await getAllOrderTypes(i.id), 
                                 "customer": i.customer, 
                                 "master": i.master   
                             })

@@ -8,6 +8,7 @@ import Materials from "@/components/Materials.vue";
 import Authorisation from "@/components/Authorisation.vue";
 import Carousel from "@/components/Carousel.vue";
 import MakeOrder from "@/components/MakeOrder.vue";
+import Error from "@/components/Error.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
       path: "/makeOrder",
       name: "Сделать заказ",
       component: MakeOrder,
+    },
+    {
+      path: "/catchall(.*)",
+      name: "Ошибка 404",
+      component: Error,
     },
   ],
 });

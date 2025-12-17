@@ -6,7 +6,7 @@
       <div class="text">Чтобы продолжить, пожалуйста, зарегестрируйтесь или войдите в аккаунт</div>
     </div>
     <div class="aligned-info">
-      <div v-if="store.state.authenticated"><Account /></div>
+      <div v-if="store.state.authenticated"><Account :withButtons="true" :withText="true" /></div>
       <div class="align" v-else>
         <Registration />
         <RouterLink class="just-text" :to="{name: 'Авторизация'}">Зарегестрированы?</RouterLink>

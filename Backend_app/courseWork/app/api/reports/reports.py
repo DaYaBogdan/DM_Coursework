@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from ..models import ReportData
 from ..db.connection import sessionMaker
-from sqlalchemy import select
+from sqlalchemy import select, insert
 from ..db.models import Reports
 
 reports_router = APIRouter()
@@ -17,11 +17,27 @@ async def getReports():
     
     return latest_orders.scalars().all()
 
+async def report(data: ReportData):
+    
+    DBConnectionCreator = sessionMaker("administrator", "12345", "Restoration workshop")
+    _, AsyncSessionLocal = DBConnectionCreator.get_engine()
+    
+    async with AsyncSessionLocal() as session:
+        stmt = insert(Reports).values(reporter=data.reporter, reported=data.reported, description=data.description)
+        await session.execute(stmt)
+        await session.commit()
+    
+    return
+
 @reports_router.post("/send_report")
 async def send_report(data: ReportData):
+    
+    await report(data)
+    
     return {
                 "status": 200, 
-                "message": "GitGud"}
+                "message": "GitGud"
+            }
 
 @reports_router.get("/get_reports")
 async def get_reports():
@@ -34,7 +50,7 @@ async def get_reports():
                                 "id": i.id, 
                                 "reporter": i.reporter, 
                                 "reported": i.reported, 
-                                "description": i.descriprion,
+                                "description": i.description,
                             })
     
     return {

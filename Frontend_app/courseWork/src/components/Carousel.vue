@@ -3,7 +3,7 @@
     <div class="info">
       <div class="text" style="padding: 1rem">Работы наших мастеров</div>
       <div class="carousel">
-        <div class="center" v-for="order in store.state.orders.slice(0, 5)" :key="order.id">
+        <div class="center" v-for="order in store.state.orders.slice(0, 4)" :key="order.id">
           <Order :image="order.image" :name="order.name" :tags="order.types" />
         </div>
       </div>

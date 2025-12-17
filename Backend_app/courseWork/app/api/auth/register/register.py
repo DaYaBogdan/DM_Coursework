@@ -2,7 +2,8 @@ from fastapi import APIRouter
 from ...models import RegisterData
 from ...db.connection import sessionMaker
 from ...db.models import Account
-from sqlalchemy import insert
+from sqlalchemy import insert, select
+from random import randint
 
 register_router = APIRouter()
 
@@ -13,11 +14,10 @@ async def registrateInDB(login: str, password: str):
     
     async with AsyncSessionLocal() as session:
         stmt = insert(Account)
-        
         data = {
             'login': login,
             'password': password,
-            'avatar_path': "album_1",
+            'avatar_path': f"album_{randint(a=1, b=15)}.jpg",
             'fio': "_",
             'email': "_",
             'phone': "_",
@@ -28,7 +28,10 @@ async def registrateInDB(login: str, password: str):
         await session.execute(stmt, data)
         await session.commit()
         
-    return data
+        stmt = select(Account).where(Account.login == data["login"])
+        account = await session.execute(stmt)
+        
+    return account.scalars().one()
 
 @register_router.post("/register")
 async def register(user_data: RegisterData):
@@ -47,4 +50,4 @@ async def register(user_data: RegisterData):
             "data": { "login": "", "password": "", "image_path": "", "fio": "", "email": "", "phone": "", "money": 0.0, "role": "" }
         }
     
-    return {"status": 200, "message": "Успешно! Вход выполнен корректно", "data":  accountInfo }
+    return {"status": 200, "message": "Успешно! Вход выполнен корректно", "data":  {accountInfo} }

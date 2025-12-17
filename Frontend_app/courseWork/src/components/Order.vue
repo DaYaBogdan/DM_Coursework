@@ -37,11 +37,7 @@ const imageUrl = ref(null);
 
 onMounted(async () => {
   if (props.image) {
-    setInterval(() => {
-      console.log(props.image);
-      console.log(props.status);
-      imageUrl.value = `http://localhost:8000/api/get_image/${props.image}`;
-    }, 3000);
+    imageUrl.value = `http://localhost:8000/api/get_image/${props.image}`;
   }
 });
 </script>
@@ -80,7 +76,7 @@ img {
 }
 
 .waitingForMaster {
-  @include setStatus(rgb(200, 200, 0));
+  @include setStatus(rgb(56, 56, 56));
 }
 
 .workedOn {

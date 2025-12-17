@@ -166,6 +166,11 @@ input {
   border-radius: 0.5rem;
   padding: 1rem;
   font-family: var(--font);
+  background-color: var(--light);
+
+  ::placeholder {
+    color: var(--dark);
+  }
 
   &::placeholder {
     text-align: center;

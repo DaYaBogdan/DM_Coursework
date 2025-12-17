@@ -24,7 +24,7 @@ async def login(user_data: LoginData):
     
     accountInfo = await getLoging(user_data.login, user_data.password)
     
-    print(accountInfo)
+    print({accountInfo})
     
     if not accountInfo:
         {

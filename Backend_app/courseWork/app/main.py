@@ -3,6 +3,9 @@ from .api.auth.auth import auth_router
 from .api.orders.orders import orders_router
 from .api.image_router.image_router import images_router
 from .api.reports.reports import reports_router
+from .api.update.update import update_router
+from .api.orders.listing.orderTypes import order_types_router
+from .api.orders.makeOrder.makeOrder import make_order_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -17,6 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(order_types_router, prefix="/api", tags=["types"])
+app.include_router(update_router, prefix="/api", tags=["update"])
 app.include_router(reports_router, prefix="/api", tags=["reports"])
 app.include_router(images_router, prefix="/api", tags=["images"])
 app.include_router(orders_router, prefix="/api", tags=["orders"])
